@@ -1,0 +1,18 @@
+# .NET build output
+**/bin/
+**/obj/
+
+# Native installer artifacts (large binary)
+native/dist/
+
+# IDE
+.vs/
+.vscode/
+*.user
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
