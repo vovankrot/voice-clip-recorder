@@ -174,9 +174,10 @@ public partial class MainWindow : Window
     {
         ShowProgress("Подготовка...");
         _step = Step.Installing;
+        var createStartMenuShortcut = ChkStartMenu.IsChecked == true;
         try
         {
-            await Task.Run(() => Install());
+            await Task.Run(() => Install(createStartMenuShortcut));
             ShowDone(false);
         }
         catch (Exception ex)
@@ -185,7 +186,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private void Install()
+    private void Install(bool createStartMenuShortcut)
     {
         Report(10, "Создание папки установки...");
         Directory.CreateDirectory(InstallDir);
@@ -202,7 +203,7 @@ public partial class MainWindow : Window
         Report(75, "Регистрация в Firefox...");
         RegisterFirefox(ManifestPath);
 
-        if (ChkStartMenu.IsChecked == true)
+        if (createStartMenuShortcut)
         {
             Report(85, "Создание ярлыка в меню «Пуск»...");
             try { CreateStartMenuShortcut(); } catch { /* non-fatal */ }
