@@ -1,0 +1,4 @@
+{
+  "name": "v1.0.0 — Начальный релиз",
+  "body": "🎙️ Голосовой диктофон для Firefox с поддержкой системного звука.\n\n📋 Компоненты:\n• Firefox расширение v1.2.0 (XPI) — Native Messaging integration\n• Native helper v1.0.0 (.NET 8, WPF) — WASAPI loopback capture\n\n✨ Возможности:\n1. Запись микрофона (микро, наушники, разные форматы)\n2. Запись системного звука (YouTube, встречи, плеер) — через помощник\n3. Сохранение в %USERPROFILE%\\Music\\VoiceClipRecorder\\\n4. Прямая загрузка файлов\n\n🔧 Инструкция:\n1. VoiceClipRecorderSetup-v1.0.0.exe — устанавливает Native Messaging Host\n2. voice-clip-recorder-v1.2.0-firefox.xpi — установить в Firefox\n3. Перезагрузить Firefox\n4. Откроется страница с инструкциями\n\n🌐 Исходный код: https://github.com/vovankrot/voice-clip-recorder"
+}
