@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Stop"
-$out = "voice-clip-recorder-v1.2.0-firefox.xpi"
+$out = "voice-clip-recorder-v1.3.0-firefox.xpi"
 if (Test-Path $out) { Remove-Item $out -Force }
 Get-ChildItem -Filter "voice-clip-recorder-v*.xpi" | Where-Object { $_.Name -ne $out } | Remove-Item -Force -ErrorAction SilentlyContinue
 

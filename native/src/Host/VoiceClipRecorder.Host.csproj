@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>VoiceClipRecorder.Host</RootNamespace>
     <AssemblyName>vcr-host</AssemblyName>
     <Nullable>enable</Nullable>
@@ -20,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="SharpAvi" Version="3.0.0" />
   </ItemGroup>
 
 </Project>

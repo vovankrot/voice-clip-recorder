@@ -7,110 +7,113 @@
   <link rel="stylesheet" href="recorder.css">
 </head>
 <body>
-  <main class="app">
-    <header class="app-header">
-      <h1>Voice Clip Recorder</h1>
-      <div class="status">
-        <span class="dot" id="stateDot"></span>
-        <span id="statusText">Готов</span>
-        <span class="timer" id="timer">00:00</span>
-      </div>
-    </header>
+  <main class="shell">
+    <section class="brand-panel">
+      <div class="glow glow-blue"></div>
+      <div class="glow glow-violet"></div>
 
-    <section class="card" aria-labelledby="sourcesTitle">
-      <h2 id="sourcesTitle">Источники</h2>
-      <div class="row">
-        <label class="check"><input type="checkbox" id="micToggle" checked><span>Микрофон</span></label>
-        <label class="check"><input type="checkbox" id="displayAudioToggle"><span>Звук вкладки / экрана</span></label>
-        <label class="check"><input type="checkbox" id="videoToggle"><span>Видео</span></label>
-      </div>
+      <div class="brand-content">
+        <div class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"></path>
+          </svg>
+        </div>
 
-      <div class="row">
-        <label class="check"><input type="checkbox" id="nativeAudioToggle"><span><strong>Системный звук (через помощник)</strong> — пишет всё, что играет в Windows, в WAV</span></label>
-      </div>
+        <h1>
+          <span>Voice Clip</span>
+          <strong>Recorder</strong>
+        </h1>
 
-      <div class="row sliders">
-        <label class="slider" data-source="mic">
-          <span>Громкость микрофона</span>
-          <input type="range" id="micGain" min="0" max="2" step="0.05" value="1">
-          <output id="micGainValue">100%</output>
-        </label>
-        <label class="slider" data-source="display" hidden>
-          <span>Громкость вкладки</span>
-          <input type="range" id="displayGain" min="0" max="2" step="0.05" value="1">
-          <output id="displayGainValue">100%</output>
-        </label>
-      </div>
+        <p class="brand-copy">Расширение теперь работает как пульт управления. Запись всегда идёт через локального помощника Windows: экран + системный звук.</p>
 
-      <div class="row">
-        <label class="field">
-          <span>Формат</span>
-          <select id="formatSelect"></select>
-        </label>
-      </div>
+        <div class="brand-badges">
+          <span>Firefox</span>
+          <span>Helper only</span>
+          <span>AVI</span>
+        </div>
 
-      <p class="hint" id="nativeHint" hidden>
-        <strong>Режим «Системный звук через помощник».</strong> В этом режиме всё, что играет в Windows (звук любой вкладки, программы, игры), пишется напрямую в WAV-файл через нативное приложение <em>Voice Clip Recorder Host</em>. Остальные источники в этом режиме отключены — для совмещения с микрофоном используйте виртуальный кабель.
-        <br>• Установщик помощника: <a href="https://github.com/vovankrot/voice-clip-recorder/releases/latest" target="_blank" rel="noopener noreferrer">скачать с GitHub</a>.
-        <br>• Файл сохраняется в <code>%USERPROFILE%\Music\VoiceClipRecorder\</code>.
-      </p>
-      <p class="hint warning" id="nativeMissingHint" hidden>
-        <strong>Помощник не установлен.</strong> Скачайте и запустите установщик: <a href="https://github.com/vovankrot/voice-clip-recorder/releases/latest" target="_blank" rel="noopener noreferrer">VoiceClipRecorderSetup.exe</a>. После установки перезапустите Firefox и обновите страницу.
-      </p>
-      <p class="hint" id="displayHint" hidden>
-        <strong>Важно про Firefox:</strong> Firefox при захвате окна или экрана <em>почти никогда не отдаёт системный звук</em> — звук передаётся только при захвате <em>отдельной вкладки</em>, но Firefox не показывает вкладки в системном диалоге выбора. Это ограничение браузера, расширение его обойти не может.
-        <br><br><strong>Как всё-таки записать звук из браузера:</strong>
-        <br>• <strong>Способ 1 (надёжный):</strong> установите виртуальный аудио-кабель (VB-Audio Cable / VoiceMeeter) или включите Stereo Mix в Windows. Направьте системный звук в этот вход и выберите его как микрофон по умолчанию. Затем здесь включите «Микрофон» — он будет писать всё, что играет в системе, включая звук вкладки.
-        <br>• <strong>Способ 2:</strong> включите «Видео» и выберите окно Firefox — Firefox запишет видео окна, но звука вкладки всё равно скорее всего не будет.
-        <br>• <strong>Способ 3:</strong> попробуйте Chrome/Edge — там в диалоге выбора есть отдельный список вкладок со звуком, и расширение в них работает корректно.
-        <br><br><strong>Совет:</strong> открой целевую вкладку в <em>отдельном окне Firefox</em> (<code>Ctrl+Shift+N</code> или перетащи вкладку за пределы текущего окна) — тогда в picker'е её заголовок будет отдельным пунктом и не будет путаться с окном рекордера.
-        <br><br><strong>Правильный порядок действий:</strong>
-        <br>1. Открой целевую вкладку в отдельном окне и <em>поставь воспроизведение на паузу</em> (не запускай заранее).
-        <br>2. Здесь нажми «Записать» и в диалоге Firefox выбери окно с целевой вкладкой.
-        <br>3. <strong>Только после старта записи</strong> переключись в окно вкладки и запусти воспроизведение — так в записи не будет «хвоста» из звука, проигравшегося до начала.
-      </p>
+        <span class="version-tag">v1.3.0</span>
+      </div>
     </section>
 
-    <section class="card record-card">
-      <div class="preview">
-        <video id="livePreview" autoplay muted playsinline hidden></video>
-        <div class="preview-empty" id="previewEmpty">Нет видео</div>
-      </div>
-
-      <div class="meters">
-        <div class="meter" id="micMeter" hidden>
-          <div class="meter-head"><span>Микрофон</span><output id="micLevelValue">0%</output></div>
-          <div class="meter-track"><span id="micLevelBar"></span></div>
+    <section class="content-panel">
+      <header class="topbar">
+        <div class="status-pill">
+          <span class="dot" id="stateDot"></span>
+          <span id="statusText">Проверка помощника...</span>
         </div>
-        <div class="meter" id="displayMeter" hidden>
-          <div class="meter-head"><span>Вкладка</span><output id="displayLevelValue">0%</output></div>
-          <div class="meter-track"><span id="displayLevelBar"></span></div>
-        </div>
-      </div>
+        <div class="timer" id="timer">00:00</div>
+      </header>
 
-      <div class="record-actions">
-        <button type="button" class="btn record" id="recordBtn">
-          <span class="record-icon"></span>
-          <span id="recordBtnLabel">Записать</span>
+      <section class="panel hero-panel">
+        <h2>Запись экрана и системного звука</h2>
+        <p>Источники больше не выбираются в браузере. Помощник пишет рабочий стол Windows и весь системный звук напрямую на диск.</p>
+      </section>
+
+      <section class="panel controls-panel">
+        <div class="field-grid">
+          <label class="field">
+            <span>Отложенный старт</span>
+            <span class="input-wrap">
+              <input type="number" id="delayStartInput" min="0" step="1" value="0" inputmode="numeric">
+              <span class="suffix">сек</span>
+            </span>
+          </label>
+
+          <label class="field">
+            <span>Авто-пауза после старта</span>
+            <span class="input-wrap">
+              <input type="number" id="autoPauseInput" min="0" step="1" value="0" inputmode="numeric">
+              <span class="suffix">сек</span>
+            </span>
+          </label>
+        </div>
+
+        <p class="subtle">0 означает, что таймер выключен. Авто-пауза срабатывает один раз после фактического старта записи.</p>
+      </section>
+
+      <section class="panel actions-panel">
+        <button type="button" class="btn primary" id="recordBtn">
+          <span class="btn-indicator"></span>
+          <span id="recordBtnLabel">Старт</span>
         </button>
-      </div>
+        <button type="button" class="btn ghost" id="pauseBtn" disabled>
+          <span id="pauseBtnLabel">Пауза</span>
+        </button>
+        <button type="button" class="btn ghost" id="openFolderBtn" disabled>Открыть папку</button>
+      </section>
 
-      <div class="messages" id="messages" aria-live="polite"></div>
-    </section>
+      <section class="stats-grid">
+        <article class="stat-card">
+          <span class="stat-label">Режим</span>
+          <strong id="modeValue">Ожидание</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Следующее действие</span>
+          <strong id="nextActionValue">Нет таймеров</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Записано</span>
+          <strong id="bytesValue">0 B</strong>
+        </article>
+      </section>
 
-    <section class="card result-card" id="resultPanel" hidden>
-      <h2>Готово</h2>
-      <audio id="audioPlayback" controls hidden></audio>
-      <video id="videoPlayback" controls hidden></video>
-      <div class="file-meta">
-        <span id="fileName">-</span>
-        <span id="fileSize">-</span>
-      </div>
-      <div class="result-actions">
-        <a class="btn primary" id="downloadLink" download>Скачать</a>
-        <button type="button" class="btn primary" id="openFolderBtn" hidden>Открыть папку</button>
-        <button type="button" class="btn ghost" id="clearBtn">Очистить</button>
-      </div>
+      <section class="panel install-panel" id="missingPanel" hidden>
+        <h3>Помощник недоступен</h3>
+        <p>Установите или переустановите локальный помощник, затем полностью перезапустите Firefox.</p>
+        <a class="btn primary link-btn" href="https://github.com/vovankrot/voice-clip-recorder/releases/latest" target="_blank" rel="noopener noreferrer">Скачать установщик</a>
+      </section>
+
+      <section class="panel result-panel" id="resultPanel" hidden>
+        <h3>Последний файл</h3>
+        <div class="file-meta">
+          <span id="fileName">-</span>
+          <span id="fileSize">-</span>
+        </div>
+        <p class="file-path" id="filePath">-</p>
+      </section>
+
+      <section class="messages" id="messages" aria-live="polite"></section>
     </section>
   </main>
 
